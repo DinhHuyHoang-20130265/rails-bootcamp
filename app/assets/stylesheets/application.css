@@ -8,3 +8,14 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+html {
+    height: 100%;
+    margin: 0; /* Remove default body margin */
+    padding: 0; /* Remove default body padding */
+}
+body {
+    min-height: 100%;
+    margin: 0; /* Remove default body margin */
+    padding: 0; /* Remove default body padding */
+}

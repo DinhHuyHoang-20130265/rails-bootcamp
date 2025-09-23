@@ -12,6 +12,7 @@ class User < ApplicationRecord
               message: "must be at least 8 characters, include uppercase, lowercase, and numbers, and contain only letters and digits"
             },
             if: -> { password.present? }
+  has_many :tweets, dependent: :destroy
 
   # --- Make email optional for Devise ---
   def email_required?

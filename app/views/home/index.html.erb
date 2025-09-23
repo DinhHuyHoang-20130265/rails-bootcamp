@@ -1,7 +1,14 @@
-<h1>Hi, <%= current_user.display_name || "User" %> @<%=current_user.username %></h1>
+<section class="gap-2 d-flex flex-column">
+  <h1>Hi, <%= current_user.display_name || "User" %> @<%= current_user.username %></h1>
 
-<p>You are logged in ✅</p>
+  <p>You are logged in ✅</p>
 
-<%= button_to "Logout", destroy_user_session_path,
-              method: :delete,
-              data: { turbo: false } %>
+  <%= button_to "Logout", destroy_user_session_path,
+                method: :delete,
+                data: { turbo: false }, class: "btn btn-primary" %>
+  <%= button_to "Edit account", edit_user_registration_path,
+                method: :get, class: "btn btn-primary" %>
+
+  <%= button_to "Tweets", tweets_path, method: :get, class: "btn btn-primary" %>
+
+</section>

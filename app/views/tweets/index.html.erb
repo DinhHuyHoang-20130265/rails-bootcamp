@@ -1,0 +1,13 @@
+<!-- app/views/tweets/index.html.erb -->
+<h1>Tweets</h1>
+
+<div style="margin-bottom: 1rem;">
+  <%= render partial: "form", locals: { tweet: current_user.tweets.build } %>
+</div>
+
+<section id="tweets">
+  <%= render @tweets %>
+</section>
+<p style="margin-top:1rem;">
+  <%= button_to "Logout", destroy_user_session_path, method: :delete, data: { turbo: false } %>
+</p>

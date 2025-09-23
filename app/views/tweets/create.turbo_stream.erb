@@ -1,0 +1,16 @@
+<% if @tweet.persisted? %>
+  <%# Prepend the new tweet to the tweets list %>
+  <%= turbo_stream.prepend "tweets" do %>
+    <%= render partial: "tweet", locals: { tweet: @tweet } %>
+  <% end %>
+
+  <%# Reset the form with a new empty tweet %>
+  <%= turbo_stream.replace "tweet-form" do %>
+    <%= render partial: "form", locals: { tweet: current_user.tweets.build } %>
+  <% end %>
+<% else %>
+  <%# Show validation errors %>
+  <%= turbo_stream.replace "tweet-form" do %>
+    <%= render partial: "form", locals: { tweet: @tweet } %>
+  <% end %>
+<% end %>
