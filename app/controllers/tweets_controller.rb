@@ -17,6 +17,12 @@ class TweetsController < ApplicationController
 
   # GET /tweets/1/edit
   def edit
+    @tweet = Tweet.find(params[:id])
+    Rails.logger.debug("Editing tweet: #{@tweet.inspect}")
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
   end
 
   # POST /tweets or /tweets.json
@@ -60,11 +66,11 @@ class TweetsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_tweet
-    @tweet = Tweet.find(params.expect(:id))
+    @tweet = Tweet.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def tweet_params
-    params.expect(tweet: [ :content, :user_id ])
+    params.require(:tweet).permit(:content)
   end
 end

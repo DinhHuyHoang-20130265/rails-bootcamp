@@ -5,9 +5,10 @@
   <%= render partial: "form", locals: { tweet: current_user.tweets.build } %>
 </div>
 
-<section id="tweets">
+<section id="tweets" class="w-50">
   <%= render @tweets %>
 </section>
+
 <p style="margin-top:1rem;">
-  <%= button_to "Logout", destroy_user_session_path, method: :delete, data: { turbo: false } %>
+  <%= button_to "Home", root_path, method: :get, class: "btn btn-primary" %>
 </p>

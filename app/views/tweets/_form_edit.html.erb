@@ -1,0 +1,41 @@
+<% if tweet.persisted? %>
+  <div data-controller="input-handle" style="padding: 8px; margin: 5px">
+    <%= form_with model: tweet, local: false, id: "tweet-form" do |f| %>
+      <% if tweet.errors.any? %>
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            <% tweet.errors.full_messages.each do |m| %>
+              <li><%= m %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <%= f.text_area :content,
+                        rows: 3,
+                        required: true,
+                        class: "form-control",
+                        data: {
+                          action: "input->input-handle#input",
+                          input_handle_target: "textarea"
+                        },
+                        placeholder: "Edit your tweet...",
+                        id: "floatingTextarea" %>
+      </div>
+
+      <div class="d-flex gap-2">
+        <%= f.submit "Update",
+                     class: "btn btn-primary btn-sm",
+                     data: { input_handle_target: "submit" } %>
+        <%= link_to "Cancel", tweet_path(tweet),
+                    data: {
+                      turbo_frame: dom_id(tweet, "show")
+                    },
+                    class: "btn btn-secondary btn-sm" %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-danger">Error: Tweet not found.</p>
+<% end %>

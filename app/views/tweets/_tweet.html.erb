@@ -1,16 +1,33 @@
-<article id="<%= dom_id(tweet) %>" style="border-bottom:1px solid #eee; padding:8px 0;">
-  <p><strong>Posted by: <%= tweet.user.username.presence || tweet.user.display_name || "User" %></strong></p>
-  <p><%= simple_format(tweet.content) %></p>
-  <small>
-    Posted at <%= l(tweet.created_at, format: :short) %>
-    <% if tweet.updated_at && tweet.updated_at != tweet.created_at %> 
-      • Updated at <%= l(tweet.updated_at, format: :short) %>
-    <% end %>
-  </small>
-  <div>
-    <% if tweet.user_id == current_user.id %>
-      <%= link_to "Edit", edit_tweet_path(tweet), class: "btn btn-secondary" %>
-      | <%= link_to "Delete", tweet, data: { turbo_method: :delete, turbo_confirm: "Delete this tweet?" }, class: "btn btn-danger" %>
-    <% end %>
-  </div>
-</article>
+<%= turbo_frame_tag dom_id(tweet, "show") do %>
+  <article id="<%= dom_id(tweet) %>" style="border:1px solid #eee; padding:8px; margin:5px">
+    <div class="d-flex flex-row justify-content-between align-items-center mb-2">
+      <p class="p-0 m-0">
+        <i class="fa-solid fa-user"></i><strong> <%= tweet.user.username.presence || tweet.user.display_name || "User" %></strong>
+      </p>
+      <small title="
+        <% if tweet.updated_at && tweet.updated_at != tweet.created_at %>
+        Updated at: <%= l(tweet.updated_at, format: :custom) %>
+      <% end %>">
+        <i class="fa-solid fa-clock"></i> <%= l(tweet.created_at, format: :custom) %>
+      </small>
+    </div>
+    <div>
+      <p><%= simple_format(tweet.content) %></p>
+      <div>
+        <button id="reply"
+                class="btn btn-primary btn-sm"
+                data-bs-toggle="collapse">
+          Reply
+        </button>
+        <% if tweet.user_id == current_user.id %>
+          <%= link_to "Edit", edit_tweet_path(tweet),
+                      class: "btn btn-secondary btn-sm" %>
+          <%= link_to "Delete", tweet,
+                        data: { turbo_method: :delete, turbo_confirm: "Delete this tweet?" },
+                        class: "btn btn-danger btn-sm" %>
+        <% end %>
+      </div>
+    </div>
+  </article>
+<% end %>
+

@@ -1,11 +1,9 @@
-<% if @tweet.persisted? %>
-  <%# Replace the updated tweet %>
-  <%= turbo_stream.replace dom_id(@tweet) do %>
-    <%= render partial: "tweet", locals: { tweet: @tweet } %>
+<% if @tweet.errors.any? %>
+  <%= turbo_stream.replace dom_id(@tweet, "show") do %>
+    <%= render partial: "form_edit", locals: { tweet: @tweet } %>
   <% end %>
 <% else %>
-  <%# Show validation errors %>
-  <%= turbo_stream.replace dom_id(@tweet) do %>
-    <%= render partial: "tweet", locals: { tweet: @tweet } %>
+  <%= turbo_stream.replace dom_id(@tweet, "show") do %>
+    <%= render @tweet %>
   <% end %>
 <% end %>

@@ -1,26 +1,35 @@
-<!-- app/views/tweets/_form.html.erb -->
 <%= turbo_frame_tag "tweet-form" do %>
-  <%= form_with model: tweet, id: "tweet-form", local: false do |f| %>
-    <% if tweet.errors.any? %>
-      <ul>
-        <% tweet.errors.full_messages.each do |m| %>
-          <li><%= m %></li>
-        <% end %>
-      </ul>
-    <% end %>
+  <div data-controller="input-handle">
+    <%= form_with model: tweet, id: "tweet-form", local: false do |f| %>
+      <% if tweet.errors.any? %>
+        <ul>
+          <% tweet.errors.full_messages.each do |m| %>
+            <li><%= m %></li>
+          <% end %>
+        </ul>
+      <% end %>
 
-    <div class="form-floating">
-      <%= f.text_area :content,
-                      rows: 4,
-                      required: true,
-                      minlength: 1,
-                      class: "form-control",
-                      placeholder: "Write your tweet here...",
-                      id: "floatingTextarea" %>
-      <%= f.label :content, for: "floatingTextarea" %>
-    </div>
-    <div class="w-100 text-center">
-      <%= f.submit "Post", class: "btn btn-primary mt-2", id: "tweet-submit"%>
-    </div>
-  <% end %>
+      <div class="form-floating">
+        <%= f.text_area :content,
+                        rows: 4,
+                        required: true,
+                        minlength: 1,
+                        class: "form-control",
+                        placeholder: "Write your tweet here...",
+                        data: {
+                          action: "input->input-handle#input",
+                          input_handle_target: "textarea"
+                        },
+                        id: "floatingTextarea" %>
+        <%= f.label :content, for: "floatingTextarea" %>
+      </div>
+      <div class="w-100 text-center">
+        <%= f.submit "Post",
+                     class: "btn btn-primary mt-2",
+                     id: "tweet-submit",
+                     disabled: true,
+                     data: { input_handle_target: "submit" } %>
+      </div>
+    <% end %>
+  </div>
 <% end %>

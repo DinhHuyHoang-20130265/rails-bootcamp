@@ -29,3 +29,8 @@
 
 en:
   hello: "Hello world"
+  # config/locales/en.yml
+  time:
+    formats:
+      custom: "%Y/%m/%d %H:%M"
+
