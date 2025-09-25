@@ -1,0 +1,78 @@
+class RepliesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_tweet
+  before_action :set_reply, only: [:edit, :update, :destroy]
+  before_action :authorize_owner!, only: [:edit, :update, :destroy]
+
+  def show
+    @tweet = Tweet.find(params[:tweet_id])
+    @reply = @tweet.replies.find(params[:id])
+    respond_to do |format|
+      format.turbo_stream # renders show.turbo_stream.erb
+      format.html
+    end
+  end
+
+  def create
+    @reply = @tweet.replies.build(reply_params.merge(user: current_user))
+    if @reply.save
+      respond_to do |format|
+        format.turbo_stream # renders create.turbo_stream.erb
+        format.html { redirect_to tweets_path, notice: "Replied." }
+      end
+    else
+      respond_to do |format|
+        format.turbo_stream # re-render form with errors
+        format.html { redirect_to tweets_path, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def edit
+    respond_to do |format|
+      format.turbo_stream # renders edit.turbo_stream.erb
+      format.html
+    end
+  end
+
+  def update
+    if @reply.update(reply_params)
+      respond_to do |format|
+        format.turbo_stream # renders update.turbo_stream.erb
+        format.html { redirect_to tweets_path, notice: "Reply updated." }
+      end
+    else
+      respond_to do |format|
+        format.turbo_stream # render form with errors
+        format.html { render :edit, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    @reply.destroy
+    respond_to do |format|
+      format.turbo_stream # renders destroy.turbo_stream.erb
+      format.html { redirect_to tweets_path, notice: "Reply deleted." }
+    end
+  end
+
+  private
+
+  def set_tweet
+    @tweet = Tweet.find(params[:tweet_id])
+  end
+
+  def set_reply
+    Rails.logger.debug(params.inspect)
+    @reply = @tweet.replies.find(params[:id])
+  end
+
+  def reply_params
+    params.require(:reply).permit(:content)
+  end
+
+  def authorize_owner!
+    redirect_to tweets_path, alert: "Not authorized." unless @reply.user_id == current_user.id
+  end
+end

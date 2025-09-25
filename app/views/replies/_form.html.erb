@@ -1,0 +1,32 @@
+<div class="d-flex align-items-start gap-2">
+  <div class="reply card mb-2 flex-grow-1">
+    <div class="card-body py-2" data-controller="input-handle">
+      <%= form_with model: reply, url: tweet_replies_path(tweet) do |f| %>
+        <% if reply.errors.any? %>
+          <ul>
+            <% reply.errors.full_messages.each do |m| %>
+              <li><%= m %></li>
+            <% end %>
+          </ul>
+        <% end %>
+        <div class="form-floating">
+          <%= f.text_area :content,
+                          rows: 3,
+                          placeholder: "Reply…",
+                          required: true,
+                          maxlength: 280,
+                          class: "form-control",
+                          id: "reply_for_#{tweet.id}",
+                          data: {
+                            action: "input->input-handle#input",
+                            input_handle_target: "textarea"
+                          } %>
+          <%= f.label :content, for: "reply_for_#{tweet.id}" %>
+        </div>
+        <div class="d-flex flex-row gap-2 justify-content-start align-items-center mt-2">
+          <%= f.submit "Reply", class: "btn btn-primary btn-sm", data: { input_handle_target: "submit" }, disabled: true %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

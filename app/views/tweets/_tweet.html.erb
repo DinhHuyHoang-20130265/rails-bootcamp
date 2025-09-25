@@ -4,29 +4,40 @@
       <p class="p-0 m-0">
         <i class="fa-solid fa-user"></i><strong> <%= tweet.user.username.presence || tweet.user.display_name || "User" %></strong>
       </p>
-      <small title="
+      <div class="d-flex align-items-center gap-2">
+        <small title="
         <% if tweet.updated_at && tweet.updated_at != tweet.created_at %>
         Updated at: <%= l(tweet.updated_at, format: :custom) %>
       <% end %>">
-        <i class="fa-solid fa-clock"></i> <%= l(tweet.created_at, format: :custom) %>
-      </small>
+          <i class="fa-solid fa-clock"></i> <%= l(tweet.created_at, format: :custom) %>
+        </small>
+        <div class="dropdown" style="justify-self: right; cursor: pointer">
+          <i class="fa-solid fa-gear" data-bs-toggle="dropdown" style="cursor: pointer"></i>
+          <div class="dropdown-menu dropdown-menu-end">
+            <% if tweet.user_id == current_user.id %>
+              <%= link_to '<i class="fa-solid fa-pencil"></i> Edit'.html_safe, edit_tweet_path(tweet),
+                          class: "dropdown-item" %>
+              <%= link_to '<i class="fa-solid fa-trash"></i> Delete'.html_safe, tweet,
+                          data: { turbo_method: :delete, turbo_confirm: "Delete this tweet?" },
+                          class: "dropdown-item" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
     <div>
       <p><%= simple_format(tweet.content) %></p>
-      <div>
-        <button id="reply"
-                class="btn btn-primary btn-sm"
-                data-bs-toggle="collapse">
-          Reply
-        </button>
-        <% if tweet.user_id == current_user.id %>
-          <%= link_to "Edit", edit_tweet_path(tweet),
-                      class: "btn btn-secondary btn-sm" %>
-          <%= link_to "Delete", tweet,
-                        data: { turbo_method: :delete, turbo_confirm: "Delete this tweet?" },
-                        class: "btn btn-danger btn-sm" %>
+      <div id="<%= dom_id(tweet, :replies) %>" class="mt-2 mb-2" style="border-top:1px solid #eee; padding-top:5px;">
+        <% tweet.replies.each do |reply| %>
+          <%= render "replies/reply", reply: reply %>
         <% end %>
       </div>
+      <div class="mt-2 mb-2" style="border-top:1px solid #eee; padding-top:5px;">
+        <%= turbo_frame_tag dom_id(tweet, "reply_form") do %>
+          <%= render "replies/form", tweet: tweet, reply: Reply.new %>
+        <% end %>
+      </div>
+
     </div>
   </article>
 <% end %>

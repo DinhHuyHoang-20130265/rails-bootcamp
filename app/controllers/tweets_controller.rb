@@ -3,8 +3,8 @@ class TweetsController < ApplicationController
 
   # GET /tweets or /tweets.json
   def index
-    @tweet = current_user.tweets.build
-    @tweets = Tweet.all.order(created_at: :desc)
+    @tweet = current_user.tweets.build if user_signed_in?
+    @tweets = Tweet.top_level.order(created_at: :desc)
   end
 
   def show
@@ -18,7 +18,6 @@ class TweetsController < ApplicationController
   # GET /tweets/1/edit
   def edit
     @tweet = Tweet.find(params[:id])
-    Rails.logger.debug("Editing tweet: #{@tweet.inspect}")
     respond_to do |format|
       format.turbo_stream
       format.html

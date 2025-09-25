@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_23_031753) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_25_035637) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,6 +19,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_23_031753) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "parent_id"
+    t.index ["parent_id"], name: "index_tweets_on_parent_id"
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 
@@ -37,5 +39,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_23_031753) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "tweets", "tweets", column: "parent_id"
   add_foreign_key "tweets", "users"
 end

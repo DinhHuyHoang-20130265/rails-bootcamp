@@ -1,0 +1,3 @@
+<%= turbo_stream.append dom_id(@tweet, :replies) do %>
+  <%= render partial: "replies/reply", locals: { reply: @reply } %>
+<% end %>
