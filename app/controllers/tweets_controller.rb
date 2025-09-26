@@ -5,7 +5,7 @@ class TweetsController < ApplicationController
   def index
     # @tweet = current_user.tweets.build if user_signed_in?
     @form = TweetForm.new(current_user.tweets.build) if user_signed_in?
-    @tweets = Tweet.top_level.order(created_at: :desc)
+    @tweets = Tweet.top_level.order(created_at: :desc).decorate
   end
 
   def show
@@ -57,7 +57,7 @@ class TweetsController < ApplicationController
     end
   end
 
-  # DELETE /tweets/1 or /tweets/1.json
+  # DELETE /tweets/1 or /tweets/1.jsons
   def destroy
     @form.model.destroy!
     respond_to do |format|
