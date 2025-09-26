@@ -2,7 +2,7 @@
 <h1>Tweets</h1>
 
 <div style="margin-bottom: 1rem;">
-  <%= render partial: "form", locals: { tweet: current_user.tweets.build } %>
+  <%= render partial: "form", locals: { form: @form } %>
 </div>
 
 <section id="tweets" class="w-50">

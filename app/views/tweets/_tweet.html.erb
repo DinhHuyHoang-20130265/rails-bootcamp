@@ -34,7 +34,7 @@
       </div>
       <div class="mt-2 mb-2" style="border-top:1px solid #eee; padding-top:5px;">
         <%= turbo_frame_tag dom_id(tweet, "reply_form") do %>
-          <%= render "replies/form", tweet: tweet, reply: Reply.new %>
+          <%= render "replies/form", tweet: tweet, form: ReplyForm.new(Reply.new) %>
         <% end %>
       </div>
 

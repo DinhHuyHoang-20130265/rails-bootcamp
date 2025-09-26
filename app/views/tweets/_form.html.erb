@@ -1,9 +1,9 @@
 <%= turbo_frame_tag "tweet-form" do %>
   <div data-controller="input-handle">
-    <%= form_with model: tweet, id: "tweet-form", local: false do |f| %>
-      <% if tweet.errors.any? %>
+    <%= form_with model: form, id: "tweet-form", local: false do |f| %>
+      <% if form.errors.any? %>
         <ul>
-          <% tweet.errors.full_messages.each do |m| %>
+          <% form.errors.full_messages.each do |m| %>
             <li><%= m %></li>
           <% end %>
         </ul>

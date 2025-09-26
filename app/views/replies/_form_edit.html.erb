@@ -2,10 +2,10 @@
   <i class="fa-solid fa-reply text-secondary pt-1" aria-hidden="true"></i>
   <div class="reply card mb-2 flex-grow-1">
     <div class="card-body py-2" data-controller="input-handle">
-      <%= form_with model: reply, url: tweet_reply_path(tweet, reply) do |f| %>
-        <% if reply.errors.any? %>
+      <%= form_with model: form, url: tweet_reply_path(tweet, form.model) do |f| %>
+        <% if form.errors.any? %>
           <ul>
-            <% reply.errors.full_messages.each do |m| %>
+            <% form.errors.full_messages.each do |m| %>
               <li><%= m %></li>
             <% end %>
           </ul>
@@ -27,9 +27,9 @@
         <div class="d-flex flex-row gap-2 justify-content-start align-items-center mt-2">
           <%= f.submit "Update", class: "btn btn-primary btn-sm", data: { input_handle_target: "submit" } %>
           <%= link_to "Cancel",
-                      tweet_reply_path(tweet, reply),
+                      tweet_reply_path(tweet, form.model),
                       data: {
-                        turbo_frame: dom_id(reply)
+                        turbo_frame: dom_id(form.model)
                       },
                       class: "btn btn-outline-secondary btn-sm" %>
         </div>

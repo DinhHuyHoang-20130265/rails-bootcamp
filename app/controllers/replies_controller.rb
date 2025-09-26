@@ -14,8 +14,8 @@ class RepliesController < ApplicationController
   end
 
   def create
-    @reply = @tweet.replies.build(reply_params.merge(user: current_user))
-    if @reply.save
+    @form = ReplyForm.new(@tweet.replies.build(reply_params.merge(user: current_user)))
+    if @form.validate(reply_params) && @form.save
       respond_to do |format|
         format.turbo_stream # renders create.turbo_stream.erb
         format.html { redirect_to tweets_path, notice: "Replied." }
@@ -36,7 +36,7 @@ class RepliesController < ApplicationController
   end
 
   def update
-    if @reply.update(reply_params)
+    if @form.validate(reply_params) && @form.save
       respond_to do |format|
         format.turbo_stream # renders update.turbo_stream.erb
         format.html { redirect_to tweets_path, notice: "Reply updated." }
@@ -50,7 +50,7 @@ class RepliesController < ApplicationController
   end
 
   def destroy
-    @reply.destroy
+    @form.model.destroy
     respond_to do |format|
       format.turbo_stream # renders destroy.turbo_stream.erb
       format.html { redirect_to tweets_path, notice: "Reply deleted." }
@@ -64,8 +64,7 @@ class RepliesController < ApplicationController
   end
 
   def set_reply
-    Rails.logger.debug(params.inspect)
-    @reply = @tweet.replies.find(params[:id])
+    @form = ReplyForm.new(@tweet.replies.find(params[:id]))
   end
 
   def reply_params
@@ -73,6 +72,6 @@ class RepliesController < ApplicationController
   end
 
   def authorize_owner!
-    redirect_to tweets_path, alert: "Not authorized." unless @reply.user_id == current_user.id
+    redirect_to tweets_path, alert: "Not authorized." unless @form.model.user_id == current_user.id
   end
 end

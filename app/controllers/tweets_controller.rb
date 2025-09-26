@@ -3,7 +3,8 @@ class TweetsController < ApplicationController
 
   # GET /tweets or /tweets.json
   def index
-    @tweet = current_user.tweets.build if user_signed_in?
+    # @tweet = current_user.tweets.build if user_signed_in?
+    @form = TweetForm.new(current_user.tweets.build) if user_signed_in?
     @tweets = Tweet.top_level.order(created_at: :desc)
   end
 
@@ -12,12 +13,14 @@ class TweetsController < ApplicationController
 
   # GET /tweets/new
   def new
-    @tweet = current_user.tweets.build
+    # @tweet = current_user.tweets.build
+    @form = TweetForm.new(current_user.tweets.build)
   end
 
   # GET /tweets/1/edit
   def edit
-    @tweet = Tweet.find(params[:id])
+    # @tweet = Tweet.find(params[:id])
+    @form = TweetForm.new(Tweet.find(params[:id]))
     respond_to do |format|
       format.turbo_stream
       format.html
@@ -26,9 +29,10 @@ class TweetsController < ApplicationController
 
   # POST /tweets or /tweets.json
   def create
-    @tweet = current_user.tweets.build(tweet_params)
+    # @tweet = current_user.tweets.build(tweet_params)
+    @form = TweetForm.new(current_user.tweets.build)
     respond_to do |format|
-      if @tweet.save
+      if @form.validate(tweet_params) && @form.save
         format.turbo_stream
         format.html { redirect_to tweets_path, notice: "Tweet created successfully." }
       else
@@ -40,9 +44,10 @@ class TweetsController < ApplicationController
 
   # PATCH/PUT /tweets/1 or /tweets/1.json
   def update
-    @tweet = Tweet.find(params[:id])
+    # @tweet = Tweet.find(params[:id])
+    @form = TweetForm.new(Tweet.find(params[:id]))
     respond_to do |format|
-      if @tweet.update(tweet_params)
+      if @form.validate(tweet_params) && @form.save
         format.turbo_stream
         format.html { redirect_to tweets_path, notice: "Tweet updated successfully." }
       else
@@ -54,7 +59,7 @@ class TweetsController < ApplicationController
 
   # DELETE /tweets/1 or /tweets/1.json
   def destroy
-    @tweet.destroy!
+    @form.model.destroy!
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to tweets_path, notice: "Tweet was successfully destroyed." }
@@ -65,7 +70,7 @@ class TweetsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_tweet
-    @tweet = Tweet.find(params[:id])
+    @form = TweetForm.new(Tweet.find(params[:id]))
   end
 
   # Only allow a list of trusted parameters through.

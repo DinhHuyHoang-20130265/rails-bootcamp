@@ -1,3 +1,3 @@
-<%= turbo_stream.append dom_id(@tweet, :replies) do %>
+<%= turbo_stream.replace dom_id(@form.model) do %>
   <%= render partial: "replies/reply", locals: { reply: @form.model } %>
 <% end %>

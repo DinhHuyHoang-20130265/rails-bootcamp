@@ -1,10 +1,10 @@
-<% if tweet.persisted? %>
+<% if form.persisted? %>
   <div data-controller="input-handle" style="padding: 8px; margin: 5px">
-    <%= form_with model: tweet, local: false, id: "tweet-form" do |f| %>
-      <% if tweet.errors.any? %>
+    <%= form_with model: form, local: false, id: "tweet-form" do |f| %>
+      <% if form.errors.any? %>
         <div class="alert alert-danger">
           <ul class="mb-0">
-            <% tweet.errors.full_messages.each do |m| %>
+            <% form.errors.full_messages.each do |m| %>
               <li><%= m %></li>
             <% end %>
           </ul>
@@ -28,9 +28,9 @@
         <%= f.submit "Update",
                      class: "btn btn-primary btn-sm",
                      data: { input_handle_target: "submit" } %>
-        <%= link_to "Cancel", tweet_path(tweet),
+        <%= link_to "Cancel", tweet_path(form.model),
                     data: {
-                      turbo_frame: dom_id(tweet, "show")
+                      turbo_frame: dom_id(form.model, "show")
                     },
                     class: "btn btn-secondary btn-sm" %>
       </div>

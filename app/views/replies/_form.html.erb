@@ -1,10 +1,10 @@
 <div class="d-flex align-items-start gap-2">
   <div class="reply card mb-2 flex-grow-1">
     <div class="card-body py-2" data-controller="input-handle">
-      <%= form_with model: reply, url: tweet_replies_path(tweet) do |f| %>
-        <% if reply.errors.any? %>
+      <%= form_with model: form, url: tweet_replies_path(tweet) do |f| %>
+        <% if form.errors.any? %>
           <ul>
-            <% reply.errors.full_messages.each do |m| %>
+            <% form.errors.full_messages.each do |m| %>
               <li><%= m %></li>
             <% end %>
           </ul>
