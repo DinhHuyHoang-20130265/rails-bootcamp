@@ -5,10 +5,9 @@
         i.fa-solid.fa-user
         strong = " #{tweet.user.display_name}"
       .d-flex.align-items-center.gap-2
-        - title_text = (tweet.updated_at && tweet.updated_at != tweet.created_at) ? "Updated at: #{tweet.date_format(tweet.updated_at)}" : nil
-        small title=title_text
+        small
           i.fa-solid.fa-clock
-          = " #{tweet.date_format(tweet.created_at)}"
+          = "#{tweet.date_format}"
         .dropdown style="justify-self: right; cursor: pointer"
           i.fa-solid.fa-gear data-bs-toggle="dropdown" style="cursor: pointer"
           .dropdown-menu.dropdown-menu-end
@@ -17,7 +16,7 @@
               = link_to '<i class="fa-solid fa-trash"></i> Delete'.html_safe, tweet, data: { turbo_method: :delete, turbo_confirm: "Delete this tweet?" }, class: "dropdown-item"
     div
       p = simple_format(tweet.content)
-      ##{dom_id(tweet, :replies)}.mt-2.mb-2 style="border-top:1px solid #eee; padding-top:5px;"
+      .mt-2.mb-2 id="#{dom_id(tweet, :replies)}" style="border-top:1px solid #eee; padding-top:5px;"
         - tweet.replies.each do |reply|
           = render "replies/reply", reply: reply
       .mt-2.mb-2 style="border-top:1px solid #eee; padding-top:5px;"

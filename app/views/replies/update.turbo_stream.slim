@@ -3,6 +3,6 @@
     = render partial: "form_edit", locals: { tweet: @tweet, form: @form }
 - else
   = turbo_stream.replace dom_id(@form.model) do
-    = render partial: "replies/reply", locals: { reply: @form.model }
+    = render partial: "replies/reply", locals: { reply: @form.model.decorate }
 
 

@@ -1,6 +1,6 @@
 - if @form.model.persisted?
   = turbo_stream.prepend "tweets" do
-    = render partial: "tweet", locals: { tweet: @form.model }
+    = render partial: "tweet", locals: { tweet: @form.model.decorate }
 
   = turbo_stream.replace "tweet-form" do
     = render partial: "form", locals: { form: @form }
