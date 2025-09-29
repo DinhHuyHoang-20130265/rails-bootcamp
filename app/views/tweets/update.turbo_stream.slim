@@ -1,0 +1,8 @@
+- if @form.errors.any?
+  = turbo_stream.replace dom_id(@form.model, "show") do
+    = render partial: "form_edit", locals: { form: @form }
+- else
+  = turbo_stream.replace dom_id(@form.model, "show") do
+    = render @form.model
+
+

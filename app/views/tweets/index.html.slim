@@ -1,0 +1,13 @@
+/- app/views/tweets/index.html.erb
+h1 Tweets
+
+div style="margin-bottom: 1rem;"
+  = render partial: "form", locals: { form: @form }
+
+section#tweets.w-50
+  = render @tweets
+
+p style="margin-top:1rem;"
+  = button_to "Home", root_path, method: :get, class: "btn btn-primary"
+
+
