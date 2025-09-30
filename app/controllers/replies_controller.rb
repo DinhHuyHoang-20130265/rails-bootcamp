@@ -13,6 +13,20 @@ class RepliesController < ApplicationController
     end
   end
 
+  def load_more
+    @page = params[:page].to_i.positive? ? params[:page].to_i : 1
+    @per_page = 5
+    @replies = @tweet.replies.order(created_at: :asc)
+                     .limit(@per_page)
+                     .offset((@page - 1) * @per_page)
+
+    @has_more = @tweet.replies.count > (@page * @per_page)
+    @tweet_left = @tweet.replies.count - (@page * @per_page)
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
   def create
     @form = ReplyForm.new(@tweet.replies.build(reply_params.merge(user: current_user)))
     if @form.validate(reply_params) && @form.save

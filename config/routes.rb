@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
   resources :tweets do
-    resources :replies, only: [ :create, :edit, :update, :destroy, :show ]
+    resources :replies, only: [ :create, :edit, :update, :destroy, :show ] do
+      collection do
+        get :load_more
+      end
+    end
+    collection do
+      get :load_more
+    end
   end
   get "home/index"
   devise_for :users, controllers: {

@@ -4,5 +4,4 @@ class ReplyDecorator < Draper::Decorator
   def date_format
     l(model.created_at, format: :custom)
   end
-
 end

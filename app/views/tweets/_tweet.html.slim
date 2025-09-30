@@ -16,9 +16,16 @@
               = link_to '<i class="fa-solid fa-trash"></i> Delete'.html_safe, tweet, data: { turbo_method: :delete, turbo_confirm: "Delete this tweet?" }, class: "dropdown-item"
     div
       p = simple_format(tweet.content)
-      .mt-2.mb-2 id="#{dom_id(tweet, :replies)}" style="border-top:1px solid #eee; padding-top:5px;"
-        - tweet.replies.each do |reply|
-          = render "replies/reply", reply: reply
+      .mt-2.mb-2 id="#{dom_id(tweet, :replies)}" style="border-top:1px solid #eee; padding-top:5px;" data-controller="load-more-replies" data-load-more-replies-url-value="#{load_more_tweet_replies_path(tweet)}" data-load-more-replies-page-value="2"
+        - tweet.replies.limit(5).each do |reply|
+          = render "replies/reply", reply: reply.decorate
+        - if tweet.replies.count > 5
+          .text-center.mt-2 id="load_more_replies_#{tweet.id}"
+            = button_to "Load More Replies (#{tweet.replies.count - 5} more)",
+                    load_more_tweet_replies_path(tweet),
+                    method: :get,
+                    class: "btn btn-sm btn-outline-primary",
+                    data: { turbo_stream: true, action: "click->load-more-replies#loadMore", load_more_replies_target: "loadMoreButton" }
       .mt-2.mb-2 style="border-top:1px solid #eee; padding-top:5px;"
         = turbo_frame_tag dom_id(tweet, "reply_form") do
           = render "replies/form", tweet: tweet, form: ReplyForm.new(Reply.new)
