@@ -1,20 +1,15 @@
 class TweetsController < ApplicationController
+  include Pagination
   before_action :authenticate_user!, only: [:create, :edit, :update, :destroy, :load_more]
   before_action :set_tweet, only: %i[ show edit update destroy ]
 
   # GET /tweets or /tweets.json
   def index
-    # @tweet = current_user.tweets.build if user_signed_in?
     @form = TweetForm.new(current_user.tweets.build) if user_signed_in?
 
-    @page = params[:page].to_i.positive? ? params[:page].to_i : 1
-    @per_page = 10
-    @tweets = Tweet.top_level.order(created_at: :desc)
-                   .limit(@per_page)
-                   .offset((@page - 1) * @per_page)
-                   .decorate
-
-    @has_more = Tweet.top_level.count > (@page * @per_page)
+    base_scope = Tweet.top_level.ordered_desc
+    @tweets, @has_more = paginate(base_scope)
+    @tweets = @tweets.decorate
     respond_to do |format|
       format.html
       format.turbo_stream
@@ -25,14 +20,9 @@ class TweetsController < ApplicationController
   end
 
   def load_more
-    @page = params[:page].to_i.positive? ? params[:page].to_i : 1
-    @per_page = 10
-    @tweets = Tweet.top_level.order(created_at: :desc)
-                   .limit(@per_page)
-                   .offset((@page - 1) * @per_page)
-                   .decorate
-
-    @has_more = Tweet.top_level.count > (@page * @per_page)
+    base_scope = Tweet.top_level.ordered_desc
+    @tweets, @has_more = paginate(base_scope)
+    @tweets = @tweets.decorate
     respond_to do |format|
       format.turbo_stream
     end

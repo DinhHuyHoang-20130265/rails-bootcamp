@@ -1,4 +1,6 @@
 class RepliesController < ApplicationController
+  include Pagination
+  include OwnershipAuthorization
   before_action :authenticate_user!
   before_action :set_tweet
   before_action :set_reply, only: [:edit, :update, :destroy]
@@ -14,14 +16,10 @@ class RepliesController < ApplicationController
   end
 
   def load_more
-    @page = params[:page].to_i.positive? ? params[:page].to_i : 1
     @per_page = 5
-    @replies = @tweet.replies.order(created_at: :asc)
-                     .limit(@per_page)
-                     .offset((@page - 1) * @per_page)
-
-    @has_more = @tweet.replies.count > (@page * @per_page)
-    @tweet_left = @tweet.replies.count - (@page * @per_page)
+    base_scope = @tweet.replies.order(created_at: :asc)
+    @replies, @has_more = paginate(base_scope)
+    @tweet_left = @tweet.replies.count - (current_page * per_page)
     respond_to do |format|
       format.turbo_stream
     end
@@ -86,6 +84,6 @@ class RepliesController < ApplicationController
   end
 
   def authorize_owner!
-    redirect_to tweets_path, alert: "Not authorized." unless @form.model.user_id == current_user.id
+    super(@form)
   end
 end
