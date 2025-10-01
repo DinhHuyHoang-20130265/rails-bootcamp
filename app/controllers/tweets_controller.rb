@@ -1,13 +1,14 @@
 class TweetsController < ApplicationController
   include Pagination
-  before_action :authenticate_user!, only: [:create, :edit, :update, :destroy, :load_more]
+  before_action :authenticate_user!, only: [ :create, :edit, :update, :destroy, :load_more ]
   before_action :set_tweet, only: %i[ show edit update destroy ]
 
   # GET /tweets or /tweets.json
   def index
     @form = TweetForm.new(current_user.tweets.build) if user_signed_in?
 
-    base_scope = Tweet.top_level.ordered_desc
+    base_scope = Tweet.top_level
+    base_scope = apply_sorting(base_scope)
     @tweets, @has_more = paginate(base_scope)
     @tweets = @tweets.decorate
     respond_to do |format|
@@ -20,7 +21,8 @@ class TweetsController < ApplicationController
   end
 
   def load_more
-    base_scope = Tweet.top_level.ordered_desc
+    base_scope = Tweet.top_level
+    base_scope = apply_sorting(base_scope)
     @tweets, @has_more = paginate(base_scope)
     @tweets = @tweets.decorate
     respond_to do |format|
@@ -93,5 +95,23 @@ class TweetsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def tweet_params
     params.require(:tweet).permit(:content)
+  end
+
+  def apply_sorting(scope)
+    sort = params[:sort].to_s
+    direction = params[:direction].to_s
+
+    case sort
+    when "date"
+      direction = %w[asc desc].include?(direction) ? direction : "desc"
+      scope.order_by_date(direction)
+    when "most_replies"
+      scope.order_by_most_replies
+    when "display_name"
+      direction = %w[asc desc].include?(direction) ? direction : "asc"
+      scope.order_by_display_name(direction)
+    else
+      scope.ordered_desc
+    end
   end
 end
