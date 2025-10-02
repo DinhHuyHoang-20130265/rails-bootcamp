@@ -3,8 +3,8 @@ class RepliesController < ApplicationController
   include OwnershipAuthorization
   before_action :authenticate_user!
   before_action :set_tweet
-  before_action :set_reply, only: [:edit, :update, :destroy]
-  before_action :authorize_owner!, only: [:edit, :update, :destroy]
+  before_action :set_reply, only: [ :edit, :update, :destroy ]
+  before_action :authorize_owner!, only: [ :edit, :update, :destroy ]
 
   def show
     @tweet = Tweet.find(params[:tweet_id])
@@ -17,7 +17,8 @@ class RepliesController < ApplicationController
 
   def load_more
     @per_page = 5
-    base_scope = @tweet.replies.order(created_at: :asc)
+    base_scope = @tweet.replies
+    base_scope = apply_sorting(base_scope)
     @replies, @has_more = paginate(base_scope)
     @tweet_left = @tweet.replies.count - (current_page * per_page)
     respond_to do |format|
@@ -85,5 +86,11 @@ class RepliesController < ApplicationController
 
   def authorize_owner!
     super(@form)
+  end
+
+  def apply_sorting(scope)
+    direction = params[:direction].to_s
+    direction = %w[asc desc].include?(direction) ? direction : "desc"
+    scope.order_by_date(direction)
   end
 end

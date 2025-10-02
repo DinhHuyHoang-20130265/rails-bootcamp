@@ -10,6 +10,10 @@ class Tweet < ApplicationRecord
   # Pagination helpers
   scope :for_page, ->(page, per_page) { limit(per_page).offset((page - 1) * per_page) }
 
+  scope :search_by_field, ->(query, field) { where("#{field} ILIKE ?", "%#{query}%") }
+  scope :search_any_field, ->(query) { where("name ILIKE ? OR description ILIKE ?", "%#{query}%", "%#{query}%") }
+
+
   def self.has_more_for?(base_scope, page:, per_page:)
     total = base_scope.unscope(:group, :select, :order).distinct.count(:id)
     total > (page * per_page)

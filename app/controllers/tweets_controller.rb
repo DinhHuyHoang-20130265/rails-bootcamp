@@ -30,6 +30,18 @@ class TweetsController < ApplicationController
     end
   end
 
+  def search
+    base_scope = Tweet.top_level
+    base_scope = apply_sorting(base_scope)
+    base_scope = base_scope.search_by_field(params[:query], :content) if params[:query]
+    @tweets, @has_more = paginate(base_scope)
+    @tweets = @tweets.decorate
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
+  end
+
   # GET /tweets/new
   def new
     # @tweet = current_user.tweets.build

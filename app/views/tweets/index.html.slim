@@ -2,13 +2,15 @@
 h1 Tweets
 
 div style="margin-bottom: 1rem;"
+  .textarea.d-flex.flex-column
+    textarea placeholder="Type here to search..." class="form-control mb-2" rows="3" data-search-handle-url-value="#{search_tweets_path}" data-controller="search-handle" data-action="input->search-handle#handleInput" id="tweet_content"
   = render partial: "form", locals: { form: @form }
 
   / Sorting controls
   - current_sort = params[:sort].to_s
   - current_dir = params[:direction].to_s
   .mb-3.mt-3
-    select.form-select.w-auto onchange="Turbo.visit(this.value)"
+    select.form-select id="sort-select" onchange="Turbo.visit(this.value)"
       - newest_url = tweets_path(request.query_parameters.merge(sort: 'date', direction: 'desc'))
       option value=newest_url selected=(current_sort == 'date' && current_dir != 'asc') Newest
       - oldest_url = tweets_path(request.query_parameters.merge(sort: 'date', direction: 'asc'))

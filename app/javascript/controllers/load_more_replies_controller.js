@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static values = { url: String, page: Number }
+  static values = { url: String, page: Number, direction: String }
   static targets = ["loadMoreButton"]
 
   connect() {

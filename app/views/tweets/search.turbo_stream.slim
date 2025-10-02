@@ -1,0 +1,16 @@
+= turbo_stream.update "tweets" do 
+
+= turbo_stream.append "tweets" do
+  - if @tweets.any?
+    = render @tweets
+  - else
+    .text-center.py-3
+      | No tweets found.
+
+- if @has_more
+  = turbo_stream.update "loading-indicator" do
+    .text-center.py-3 style="height: 1px; overflow: hidden;"
+      .spinner-border.text-primary role="status"
+        span.visually-hidden Loading...
+- else
+  = turbo_stream.remove "loading-indicator"

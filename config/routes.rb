@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     end
     collection do
       get :load_more
+      get :search
     end
   end
   get "home/index"
