@@ -2,7 +2,7 @@ class TweetsController < ApplicationController
   include Pagination
 
   before_action :authenticate_user!,
-                only: [ :create, :edit, :update, :destroy, :load_more ]
+                only: [ :new, :create, :edit, :update, :destroy, :load_more ]
   before_action :set_tweet, only: %i[ show edit update destroy ]
 
   # GET /tweets or /tweets.json
@@ -36,8 +36,9 @@ class TweetsController < ApplicationController
 
   # GET /tweets/new
   def new
-    # @tweet = current_user.tweets.build
-    @form = TweetForm.new(current_user.tweets.build)
+    # Build a non-persisted tweet for the form; associate only if signed in
+    tweet = user_signed_in? ? current_user.tweets.build : Tweet.new
+    @form = TweetForm.new(tweet)
   end
 
   # GET /tweets/1/edit

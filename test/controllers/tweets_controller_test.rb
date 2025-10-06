@@ -3,6 +3,7 @@ require "test_helper"
 class TweetsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @tweet = tweets(:one)
+    @user = users(:one)
   end
 
   test "should get index" do
@@ -11,16 +12,18 @@ class TweetsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get new" do
+    sign_in @user
     get new_tweet_url
     assert_response :success
   end
 
   test "should create tweet" do
+    sign_in @user
     assert_difference("Tweet.count") do
-      post tweets_url, params: { tweet: { content: @tweet.content, user_id: @tweet.user_id } }
+      post tweets_url, params: { tweet: { content: @tweet.content } }
     end
 
-    assert_redirected_to tweet_url(Tweet.last)
+    assert_redirected_to tweets_url
   end
 
   test "should show tweet" do
@@ -29,17 +32,20 @@ class TweetsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get edit" do
+    sign_in @user
     get edit_tweet_url(@tweet)
     assert_response :success
   end
 
   test "should update tweet" do
-    patch tweet_url(@tweet), params: { tweet: { content: @tweet.content, user_id: @tweet.user_id } }
-    assert_redirected_to tweet_url(@tweet)
+    sign_in @user
+    patch tweet_url(@tweet), params: { tweet: { content: @tweet.content } }
+    assert_redirected_to tweets_url
   end
 
   test "should destroy tweet" do
-    assert_difference("Tweet.count", -1) do
+    sign_in @user
+    assert_difference("Tweet.count", -3) do
       delete tweet_url(@tweet)
     end
 

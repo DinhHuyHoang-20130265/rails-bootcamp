@@ -16,7 +16,7 @@ section.w-50
     .form-group
       = f.label :password
       - if @minimum_password_length
-        p (#{@minimum_password_length} characters minimum)
+        p #{@minimum_password_length} characters minimum
       br
       = f.password_field :password, required: true,
         minlength: @minimum_password_length, class: "form-control"

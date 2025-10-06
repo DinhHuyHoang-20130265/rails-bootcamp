@@ -12,7 +12,7 @@
       .dropdown style= "justify-self: right; cursor: pointer"
         i.fa-solid.fa-gear data-bs-toggle= "dropdown" style= "cursor: pointer"
         .dropdown-menu.dropdown-menu-end
-          - if tweet.user_id == current_user.id
+          - if user_signed_in? && tweet.user_id == current_user.id
             = link_to '<i class= "fa-solid fa-pencil"></i> Edit'.html_safe,
               edit_tweet_path(tweet), class: "dropdown-item"
             = link_to '<i class= "fa-solid fa-trash"></i> Delete'.html_safe,

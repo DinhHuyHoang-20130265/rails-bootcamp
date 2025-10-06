@@ -9,7 +9,7 @@
             = reply.user.display_name
           .d-flex.align-items-center.gap-2
             small.text-muted = reply.date_format
-            - if reply.user_id == current_user.id
+            - if user_signed_in? && reply.user_id == current_user.id
               .dropdown style= "cursor: pointer"
                 i.fa-solid.fa-gear [
                   data-bs-toggle= "dropdown"

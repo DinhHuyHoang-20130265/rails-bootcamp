@@ -2,7 +2,8 @@
 h1 Tweets
 
 div style= "margin-bottom: 1rem;"
-  = render partial: "form", locals: { form: @form }
+  - if @form
+    = render partial: "form", locals: { form: @form }
 
   / Sorting controls
   - current_sort = params[:sort].to_s
