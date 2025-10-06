@@ -68,7 +68,7 @@ class RepliesController < ApplicationController
   end
 
   def destroy
-    @form.model.destroy
+    @form.model.destroy!
 
     respond_to do |format|
       format.turbo_stream # renders destroy.turbo_stream.erb

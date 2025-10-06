@@ -18,8 +18,9 @@ section class= "w-50 d-flex flex-column gap-2"
       div Currently waiting confirmation for: #{resource.unconfirmed_email}
 
     .form-group
-      = f.label :password, placeholder: "leave blank if you don't want to change it"
+      = f.label :password
       br
+      i leave blank if you don't want to change it
       = f.password_field :password, class: "form-control"
       - if @minimum_password_length
         em #{@minimum_password_length} characters minimum
@@ -31,6 +32,7 @@ section class= "w-50 d-flex flex-column gap-2"
 
     .form-group
       = f.label :current_password
+      br
       i we need your current password to confirm your changes
       br
       = f.password_field :current_password, class: "form-control"

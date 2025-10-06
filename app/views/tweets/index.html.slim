@@ -21,7 +21,11 @@ div style= "margin-bottom: 1rem;"
       - name_desc_url = tweets_path(request.query_parameters.merge(sort: 'display_name', direction: 'desc'))
       option value= name_desc_url selected=(current_sort == 'display_name' && current_dir == 'desc') Display name Z→A
 
-section#tweets.w-50 data-controller= "infinite-scroll" data-infinite-scroll-url-value= "#{load_more_tweets_path(request.query_parameters)}" data-infinite-scroll-page-value= "2"
+section#tweets.w-50 [
+  data-controller= "infinite-scroll"
+  data-infinite-scroll-url-value= "#{load_more_tweets_path(request.query_parameters)}"
+  data-infinite-scroll-page-value= "2"
+]
   = render @tweets
 
 - if @has_more_tweets
