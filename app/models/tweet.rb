@@ -13,10 +13,15 @@ class Tweet < ApplicationRecord
         ->(page, per_page) { limit(per_page).offset((page - 1) * per_page) }
 
   scope :search_by_field,
-        ->(query, field) { where("#{field} ILIKE ?", "%#{query}%") }
+        ->(query, field) {
+          pattern = "%#{query}%"
+          where("name ILIKE ?", pattern)
+        }
   scope :search_any_field,
-        ->(query) { where("name ILIKE ? OR description ILIKE ?", "%#{query}%",
-                          "%#{query}%") }
+        ->(query) {
+          pattern = "%#{query}%"
+          where("name ILIKE ?", pattern)
+        }
 
 
   def self.has_more_for?(base_scope, page:, per_page:)
