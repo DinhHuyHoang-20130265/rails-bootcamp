@@ -16,12 +16,14 @@ class Tweet < ApplicationRecord
 
   def self.has_more_for?(base_scope, page:, per_page:)
     total = base_scope.unscope(:group, :select, :order).distinct.count(:id)
+
     total > (page * per_page)
   end
 
   # Sorting helpers
   def self.order_by_date(direction = :desc)
     direction = %i[asc desc].include?(direction.to_sym) ? direction.to_sym : :desc
+
     order(created_at: direction)
   end
 
@@ -33,6 +35,7 @@ class Tweet < ApplicationRecord
 
   def self.order_by_display_name(direction = :asc)
     direction = %i[asc desc].include?(direction.to_sym) ? direction.to_sym : :asc
+
     joins(:user).order("users.display_name #{direction.to_s.upcase}, tweets.created_at DESC")
   end
 end

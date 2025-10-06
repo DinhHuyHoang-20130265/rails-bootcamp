@@ -19,10 +19,10 @@ gem "jbuilder"
 
 gem "reform"
 gem "reform-rails"
-gem 'draper', '~> 4.0', '>= 4.0.4'
-gem 'slim-rails', '~> 3.7'
+gem "draper", "~> 4.0", ">= 4.0.4"
+gem "slim-rails", "~> 3.7"
 
-gem 'pg', '~> 1.x' # Use the appropriate version
+gem "pg", "~> 1.x" # Use the appropriate version
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 #

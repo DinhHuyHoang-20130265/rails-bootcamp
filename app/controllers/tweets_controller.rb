@@ -1,6 +1,8 @@
 class TweetsController < ApplicationController
   include Pagination
-  before_action :authenticate_user!, only: [ :create, :edit, :update, :destroy, :load_more ]
+
+  before_action :authenticate_user!,
+                only: [ :new, :create, :edit, :update, :destroy, :load_more ]
   before_action :set_tweet, only: %i[ show edit update destroy ]
 
   # GET /tweets or /tweets.json
@@ -9,8 +11,9 @@ class TweetsController < ApplicationController
 
     base_scope = Tweet.top_level
     base_scope = apply_sorting(base_scope)
-    @tweets, @has_more = paginate(base_scope)
+    @tweets, @has_more_tweets = paginate(base_scope)
     @tweets = @tweets.decorate
+
     respond_to do |format|
       format.html
       format.turbo_stream
@@ -23,8 +26,9 @@ class TweetsController < ApplicationController
   def load_more
     base_scope = Tweet.top_level
     base_scope = apply_sorting(base_scope)
-    @tweets, @has_more = paginate(base_scope)
+    @tweets, @has_more_tweets = paginate(base_scope)
     @tweets = @tweets.decorate
+
     respond_to do |format|
       format.turbo_stream
     end
@@ -44,14 +48,16 @@ class TweetsController < ApplicationController
 
   # GET /tweets/new
   def new
-    # @tweet = current_user.tweets.build
-    @form = TweetForm.new(current_user.tweets.build)
+    # Build a non-persisted tweet for the form; associate only if signed in
+    tweet = user_signed_in? ? current_user.tweets.build : Tweet.new
+    @form = TweetForm.new(tweet)
   end
 
   # GET /tweets/1/edit
   def edit
     # @tweet = Tweet.find(params[:id])
     @form = TweetForm.new(Tweet.find(params[:id]))
+
     respond_to do |format|
       format.turbo_stream
       format.html
@@ -62,10 +68,13 @@ class TweetsController < ApplicationController
   def create
     # @tweet = current_user.tweets.build(tweet_params)
     @form = TweetForm.new(current_user.tweets.build)
+
     respond_to do |format|
       if @form.validate(tweet_params) && @form.save
         format.turbo_stream
-        format.html { redirect_to tweets_path, notice: "Tweet created successfully." }
+        format.html {
+          redirect_to tweets_path, notice: "Tweet created successfully."
+        }
       else
         format.turbo_stream
         format.html { render :'tweets/index' }
@@ -77,10 +86,13 @@ class TweetsController < ApplicationController
   def update
     # @tweet = Tweet.find(params[:id])
     @form = TweetForm.new(Tweet.find(params[:id]))
+
     respond_to do |format|
       if @form.validate(tweet_params) && @form.save
         format.turbo_stream
-        format.html { redirect_to tweets_path, notice: "Tweet updated successfully." }
+        format.html {
+          redirect_to tweets_path, notice: "Tweet updated successfully."
+        }
       else
         format.turbo_stream
         format.html { render :'tweets/index' }
@@ -91,9 +103,12 @@ class TweetsController < ApplicationController
   # DELETE /tweets/1 or /tweets/1.jsons
   def destroy
     @form.model.destroy!
+
     respond_to do |format|
       format.turbo_stream
-      format.html { redirect_to tweets_path, notice: "Tweet was successfully destroyed." }
+      format.html {
+        redirect_to tweets_path, notice: "Tweet was successfully destroyed."
+      }
     end
   end
 

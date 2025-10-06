@@ -8,5 +8,4 @@ class UserDecorator < Draper::Decorator
   def display_name
     model.display_name.presence || model.username || "User"
   end
-
 end

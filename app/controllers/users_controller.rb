@@ -1,6 +1,6 @@
 class UsersController < Devise::RegistrationsController
-  before_action :configure_sign_up_params, only: [:create]
-  before_action :configure_account_update_params, only: [:update]
+  before_action :configure_sign_up_params, only: [ :create ]
+  before_action :configure_account_update_params, only: [ :update ]
 
   def new
     @form = UserForm.new(User.new)
@@ -9,6 +9,7 @@ class UsersController < Devise::RegistrationsController
 
   def create
     @form = UserForm.new(User.new)
+
     if @form.validate(sign_up_params) && @form.save
       set_flash_message! :notice, :signed_up
       sign_up(resource_name, @form.model)
@@ -41,11 +42,17 @@ class UsersController < Devise::RegistrationsController
   protected
 
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :display_name])
+    devise_parameter_sanitizer.permit(
+      :sign_up, keys: [ :username, :display_name ])
   end
 
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :display_name, :current_password])
+    devise_parameter_sanitizer.permit(
+      :account_update, keys: [
+        :username,
+        :display_name,
+        :current_password
+      ])
   end
 
   def redirect_to_root(resource)
