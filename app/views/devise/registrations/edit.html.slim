@@ -19,7 +19,7 @@ section.w-50.d-flex.flex-column.gap-2
 
     .form-group
       = f.label :password
-      i (leave blank if you don't want to change it)
+      p (leave blank if you don't want to change it)
       br
       = f.password_field :password, class: "form-control"
       - if @minimum_password_length
