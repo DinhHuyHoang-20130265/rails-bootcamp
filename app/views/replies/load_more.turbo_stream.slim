@@ -1,15 +1,17 @@
 - @replies.each do |reply|
   = turbo_stream.append dom_id(@tweet, :replies) do
     = render "replies/reply", reply: reply.decorate
-    
-- if @has_more
+
+- if @has_more_replies
   = turbo_stream.remove "load_more_replies_#{@tweet.id}"
   = turbo_stream.append dom_id(@tweet, :replies) do
-    .text-center.mt-2 id="load_more_replies_#{@tweet.id}"
+    .text-center.mt-2 id= "load_more_replies_#{@tweet.id}"
       = button_to "Load More Replies (#{@tweet_left} more)",
-              load_more_tweet_replies_path(@tweet),
-              method: :get,
-              class: "btn btn-sm btn-outline-primary",
-              data: { turbo_stream: true, action: "click->load-more-replies#loadMore", load_more_replies_target: "loadMoreButton" }
+        load_more_tweet_replies_path(@tweet),
+        method: :get,
+        class: "btn btn-sm btn-outline-primary",
+        data: { turbo_stream: true,
+          action: "click->load-more-replies#loadMore",
+          load_more_replies_target: "loadMoreButton" }
 - else
   = turbo_stream.remove "load_more_replies_#{@tweet.id}"

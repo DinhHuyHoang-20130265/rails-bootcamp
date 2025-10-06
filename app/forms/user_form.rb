@@ -5,17 +5,6 @@ class UserForm < Reform::Form
   property :password_confirmation, virtual: true # Not persisted in the database
   property :current_password, virtual: true # For profile updates
 
-  def save
-    if password.blank?
-      # If password is blank, update only non-password fields
-      model.assign_attributes(username: username, display_name: display_name)
-      model.save
-    else
-      # If password is present, use normal save
-      super
-    end
-  end
-
   validates :display_name, presence: true
   validates :username, presence: true, length: { minimum: 3 }
   validates :password, presence: true,
@@ -29,6 +18,17 @@ class UserForm < Reform::Form
   validate :passwords_match, if: :password_changed?
   validate :current_password_valid, if: :current_password_required?
   validate :username_uniqueness
+
+  def save
+    if password.blank?
+      # If password is blank, update only non-password fields
+      model.assign_attributes(username: username, display_name: display_name)
+      model.save
+    else
+      # If password is present, use normal save
+      super
+    end
+  end
 
   private
 

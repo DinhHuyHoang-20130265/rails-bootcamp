@@ -1,34 +1,34 @@
 /- app/views/tweets/index.html.erb
 h1 Tweets
 
-div style="margin-bottom: 1rem;"
+div style= "margin-bottom: 1rem;"
   = render partial: "form", locals: { form: @form }
 
   / Sorting controls
   - current_sort = params[:sort].to_s
   - current_dir = params[:direction].to_s
   .mb-3.mt-3
-    select.form-select.w-auto onchange="Turbo.visit(this.value)"
+    select.form-select.w-auto onchange= "Turbo.visit(this.value)"
       - newest_url = tweets_path(request.query_parameters.merge(sort: 'date', direction: 'desc'))
-      option value=newest_url selected=(current_sort == 'date' && current_dir != 'asc') Newest
+      option value= newest_url selected=(current_sort == 'date' && current_dir != 'asc') Newest
       - oldest_url = tweets_path(request.query_parameters.merge(sort: 'date', direction: 'asc'))
-      option value=oldest_url selected=(current_sort == 'date' && current_dir == 'asc') Oldest
+      option value= oldest_url selected=(current_sort == 'date' && current_dir == 'asc') Oldest
       - most_replies_url = tweets_path(request.query_parameters.merge(sort: 'most_replies').except(:direction))
-      option value=most_replies_url selected=(current_sort == 'most_replies') Most replies
+      option value= most_replies_url selected=(current_sort == 'most_replies') Most replies
       - name_asc_url = tweets_path(request.query_parameters.merge(sort: 'display_name', direction: 'asc'))
-      option value=name_asc_url selected=(current_sort == 'display_name' && current_dir == 'asc') Display name A→Z
+      option value= name_asc_url selected=(current_sort == 'display_name' && current_dir == 'asc') Display name A→Z
       - name_desc_url = tweets_path(request.query_parameters.merge(sort: 'display_name', direction: 'desc'))
-      option value=name_desc_url selected=(current_sort == 'display_name' && current_dir == 'desc') Display name Z→A
+      option value= name_desc_url selected=(current_sort == 'display_name' && current_dir == 'desc') Display name Z→A
 
-section#tweets.w-50 data-controller="infinite-scroll" data-infinite-scroll-url-value="#{load_more_tweets_path(request.query_parameters)}" data-infinite-scroll-page-value="2"
+section#tweets.w-50 data-controller= "infinite-scroll" data-infinite-scroll-url-value= "#{load_more_tweets_path(request.query_parameters)}" data-infinite-scroll-page-value= "2"
   = render @tweets
 
-- if @has_more
-  #loading-indicator.text-center.py-3 style="height: 1px; overflow: hidden;"
-    .spinner-border.text-primary role="status"
+- if @has_more_tweets
+  #loading-indicator.text-center.py-3 style= "height: 1px; overflow: hidden;"
+    .spinner-border.text-primary role= "status"
       span.visually-hidden Loading...
 
-p style="margin-top:1rem;"
+p style= "margin-top:1rem;"
   = button_to "Home", root_path, method: :get, class: "btn btn-primary"
 
 
