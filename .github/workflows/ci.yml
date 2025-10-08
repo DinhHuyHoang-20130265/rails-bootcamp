@@ -59,9 +59,9 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ vars.POSTGRES_DB }}
         ports:
           - 5432:5432
         # Wait until Postgres is healthy before running tests
@@ -85,8 +85,8 @@ jobs:
 
       - name: Run tests
         env:
-          RAILS_ENV: test
-          DATABASE_URL: postgres://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}localhost:5432/bootcamp
+          RAILS_ENV: tes
+          DATABASE_URL: postgres://${{ vars.DB_USERNAME }}:${{ vars.DB_PASSWORD }}localhost:5432/${{ vars.DB_NAME }}
           # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:prepare && bin/rails test test:system
 
