@@ -86,7 +86,7 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:123456@localhost:5432/bootcamp
+          DATABASE_URL: postgres://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}localhost:5432/bootcamp
           # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:prepare && bin/rails test test:system
 
