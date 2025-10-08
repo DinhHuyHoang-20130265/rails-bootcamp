@@ -1,16 +1,21 @@
 class UserForm < Reform::Form
   property :username
   property :display_name
-  property :password, empty: true # case when user update but not change password
-  property :password_confirmation, virtual: true # Not persisted in the database
-  property :current_password, virtual: true # For profile updates
+  # case when user update but not change password
+  property :password, empty: true
+  # Not persisted in the database
+  property :password_confirmation, virtual: true
+  # For profile updates
+  property :current_password, virtual: true
 
   validates :display_name, presence: true
   validates :username, presence: true, length: { minimum: 3 }
   validates :password, presence: true,
             format: {
               with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}\z/,
-              message: "must be at least 8 characters, include uppercase, lowercase, and numbers, and contain only letters and digits"
+              message: "must be at least 8 characters,
+                        include uppercase, lowercase, and numbers,
+                        and contain only letters and digits"
             },
             if: :password_required?
   validates :password_confirmation, presence: true, if: :password_required?

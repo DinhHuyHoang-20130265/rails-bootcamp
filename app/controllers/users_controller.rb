@@ -30,8 +30,8 @@ class UsersController < Devise::RegistrationsController
     @form = UserForm.new(current_user)
 
     if @form.validate(account_update_params) && @form.save
-        set_flash_message! :notice, :updated
-        redirect_to redirect_to_root(@form.model)
+      set_flash_message! :notice, :updated
+      redirect_to redirect_to_root(@form.model)
     else
       clean_up_passwords @form.model
       set_minimum_password_length
