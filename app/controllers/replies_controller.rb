@@ -7,6 +7,8 @@ class RepliesController < ApplicationController
   before_action :set_reply, only: [ :edit, :update, :destroy ]
   before_action :authorize_owner!, only: [ :edit, :update, :destroy ]
 
+
+
   def show
     @tweet = Tweet.find(params[:tweet_id])
     @reply = @tweet.replies.find(params[:id])

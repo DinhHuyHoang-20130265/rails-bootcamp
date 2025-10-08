@@ -4,8 +4,8 @@
 
 - if @has_more_tweets
   = turbo_stream.update "loading-indicator" do
-    .text-center.py-3 style= "height: 1px; overflow: hidden;"
-      .spinner-border.text-primary role= "status"
+    .text-center.py-3[style= "height: 1px; overflow: hidden;"]
+      .spinner-border.text-primary[role= "status"]
         span.visually-hidden Loading...
 - else
   = turbo_stream.remove "loading-indicator"

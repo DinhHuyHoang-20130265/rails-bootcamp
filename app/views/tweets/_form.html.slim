@@ -1,5 +1,5 @@
 = turbo_frame_tag "tweet-form" do
-  div data-controller= "input-handle"
+  div[data-controller= "input-handle"]
     = form_with model: form, id: "tweet-form", local: false do |f|
       - if form.errors.any?
         ul

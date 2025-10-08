@@ -1,11 +1,11 @@
 .d-flex.align-items-start.gap-2
   .reply.card.mb-2.flex-grow-1
-    .card-body.py-2 data-controller= "input-handle"
+    .card-body.py-2[data-controller= "input-handle"]
       = form_with model: form, url: tweet_replies_path(tweet) do |f|
         - if form.errors.any?
           ul
             - form.errors.full_messages.each do |m|
-              li = m
+              li= m
         .form-floating
           = f.text_area :content,
             rows: 3,

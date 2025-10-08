@@ -7,6 +7,8 @@ module Pagination
     helper_method :current_page, :per_page
   end
 
+
+
   def current_page
     value = params[:page].to_i
 
