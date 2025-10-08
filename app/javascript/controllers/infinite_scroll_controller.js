@@ -30,7 +30,8 @@ export default class extends Controller {
     const loadingIndicator = document.getElementById("loading-indicator")
     if (loadingIndicator) {
       this.observer.observe(loadingIndicator)
-    } else {
+    }
+    else {
       // If no loading indicator exists, there are no more tweets to load
       // Disconnect the observer to prevent unnecessary API calls
       this.observer.disconnect()
