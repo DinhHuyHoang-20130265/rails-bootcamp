@@ -1,24 +1,27 @@
 - if form.persisted?
-  div data-controller="input-handle" style="padding: 8px; margin: 5px"
+  div[data-controller= "input-handle" style= "padding: 8px; margin: 5px"]
     = form_with model: form, local: false, id: "tweet-form" do |f|
       - if form.errors.any?
         .alert.alert-danger
           ul.mb-0
             - form.errors.full_messages.each do |m|
               li = m
-
       .mb-3
         = f.text_area :content,
-                      rows: 3,
-                      required: true,
-                      class: "form-control",
-                      data: { action: "input->input-handle#input", input_handle_target: "textarea" },
-                      placeholder: "Edit your tweet...",
-                      id: "floatingTextarea"
+          rows: 3,
+          required: true,
+          class: "form-control",
+          data: { action: "input->input-handle#input",
+            input_handle_target: "textarea" },
+          placeholder: "Edit your tweet...",
+          id: "floatingTextarea"
 
       .d-flex.gap-2
-        = f.submit "Update", class: "btn btn-primary btn-sm", data: { input_handle_target: "submit" }
-        = link_to "Cancel", tweet_path(form.model), data: { turbo_frame: dom_id(form.model, "show") }, class: "btn btn-secondary btn-sm"
+        = f.submit "Update", class: "btn btn-primary btn-sm",
+          data: { input_handle_target: "submit" }
+        = link_to "Cancel", tweet_path(form.model),
+          data: { turbo_frame: dom_id(form.model, "show") },
+          class: "btn btn-secondary btn-sm"
 - else
   p.text-danger Error: Tweet not found.
 

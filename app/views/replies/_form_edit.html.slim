@@ -1,7 +1,7 @@
 .d-flex.align-items-start.gap-2
-  i.fa-solid.fa-reply.text-secondary.pt-1 aria-hidden="true"
+  i.fa-solid.fa-reply.text-secondary.pt-1[aria-hidden= "true"]
   .reply.card.mb-2.flex-grow-1
-    .card-body.py-2 data-controller="input-handle"
+    .card-body.py-2[data-controller= "input-handle"]
       = form_with model: form, url: tweet_reply_path(tweet, form.model) do |f|
         - if form.errors.any?
           ul
@@ -9,14 +9,18 @@
               li = m
         .form-floating
           = f.text_area :content,
-                        rows: 3,
-                        placeholder: "Edit your reply...",
-                        required: true,
-                        maxlength: 280,
-                        class: "form-control",
-                        id: "reply_for_#{tweet.id}",
-                        data: { action: "input->input-handle#input", input_handle_target: "textarea" }
+            rows: 3,
+            placeholder: "Edit your reply...",
+            required: true,
+            maxlength: 280,
+            class: "form-control",
+            id: "reply_for_#{tweet.id}",
+            data: { action: "input->input-handle#input",
+              input_handle_target: "textarea" }
           = f.label :content, for: "reply_for_#{tweet.id}"
         .d-flex.flex-row.gap-2.justify-content-start.align-items-center.mt-2
-          = f.submit "Update", class: "btn btn-primary btn-sm", data: { input_handle_target: "submit" }
-          = link_to "Cancel", tweet_reply_path(tweet, form.model), data: { turbo_frame: dom_id(form.model) }, class: "btn btn-outline-secondary btn-sm"
+          = f.submit "Update", class: "btn btn-primary btn-sm",
+            data: { input_handle_target: "submit" }
+          = link_to "Cancel", tweet_reply_path(tweet, form.model),
+            data: { turbo_frame: dom_id(form.model) },
+            class: "btn btn-outline-secondary btn-sm"

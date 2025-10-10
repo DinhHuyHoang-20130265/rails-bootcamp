@@ -3,7 +3,7 @@
     = render partial: "tweet", locals: { tweet: @form.model.decorate }
 
   = turbo_stream.replace "tweet-form" do
-    = render partial: "form", locals: { form: @form }
+    = render partial: "form", locals: { form: TweetForm.new(current_user.tweets.build) }
 - else
   = turbo_stream.replace "tweet-form" do
     = render partial: "form", locals: { form: @form }
