@@ -2,6 +2,16 @@
 h1 Tweets
 
 div[style= "margin-bottom: 1rem;"]
+  .textarea.d-flex.flex-column
+    textarea [
+      placeholder= "Type here to search..."
+      class= "form-control mb-2"
+      rows= "3"
+      data-search-handle-url-value= "#{search_tweets_path}"
+      data-controller= "search-handle"
+      data-action= "input->search-handle#handleInput"
+      id= "tweet_content"
+    ]
   - if @form
     = render partial: "form", locals: { form: @form }
 

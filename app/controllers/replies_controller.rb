@@ -95,4 +95,10 @@ class RepliesController < ApplicationController
   def authorize_owner!
     super(@form)
   end
+
+  def apply_sorting(scope)
+    direction = params[:direction].to_s
+    direction = %w[asc desc].include?(direction) ? direction : "desc"
+    scope.order_by_date(direction)
+  end
 end
