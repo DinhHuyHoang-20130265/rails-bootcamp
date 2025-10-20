@@ -19,8 +19,11 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: bootcamp
+  database: bootcamp_yicw
   pool: 5
-  username: postgres
+  username: bootcamp
   password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %> # Using environment variable
   host: <%= ENV['MYAPP_DATABASE_HOST'] %>
+  cable:
+    database: <%= ENV['DATABASE_NAME'] %>
+    url: <%= ENV['DATABASE_URL'] %>
