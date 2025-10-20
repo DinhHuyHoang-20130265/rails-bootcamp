@@ -67,7 +67,7 @@
     <orderEntry type="library" scope="PROVIDED" name="ed25519 (v1.4.0, RVM: ruby-3.3.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erb (v5.0.2, RVM: ruby-3.3.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.13.1, RVM: ruby-3.3.6) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="et-orbi (v1.3.0, RVM: ruby-3.3.6) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="et-orbi (v1.4.0, RVM: ruby-3.3.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fugit (v1.11.2, RVM: ruby-3.3.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.2.1, RVM: ruby-3.3.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.14.7, RVM: ruby-3.3.6) [gem]" level="application" />
@@ -141,6 +141,7 @@
     <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v4.35.0, RVM: ruby-3.3.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="slim (v5.2.1, RVM: ruby-3.3.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="slim-rails (v3.7.0, RVM: ruby-3.3.6) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="solid_cable (v3.0.12, RVM: ruby-3.3.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="solid_cache (v1.0.7, RVM: ruby-3.3.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="solid_queue (v1.2.1, RVM: ruby-3.3.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sqlite3 (v2.7.3, RVM: ruby-3.3.6) [gem]" level="application" />
