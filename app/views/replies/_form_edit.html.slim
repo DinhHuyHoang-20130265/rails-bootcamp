@@ -1,7 +1,7 @@
 .d-flex.align-items-start.gap-2
-  i.fa-solid.fa-reply.text-secondary.pt-1 aria-hidden= "true"
+  i.fa-solid.fa-reply.text-secondary.pt-1[aria-hidden= "true"]
   .reply.card.mb-2.flex-grow-1
-    .card-body.py-2 data-controller= "input-handle"
+    .card-body.py-2[data-controller= "input-handle"]
       = form_with model: form, url: tweet_reply_path(tweet, form.model) do |f|
         - if form.errors.any?
           ul

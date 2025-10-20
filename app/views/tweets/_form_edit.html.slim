@@ -1,5 +1,5 @@
 - if form.persisted?
-  div data-controller= "input-handle" style= "padding: 8px; margin: 5px"
+  div[data-controller= "input-handle" style= "padding: 8px; margin: 5px"]
     = form_with model: form, local: false, id: "tweet-form" do |f|
       - if form.errors.any?
         .alert.alert-danger

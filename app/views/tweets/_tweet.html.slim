@@ -1,18 +1,18 @@
 = turbo_frame_tag dom_id(tweet, "show") do
-  article [
+  article[
     id= dom_id(tweet)
     style= "border:1px solid #eee; padding:8px; margin:5px"
   ]
     .d-flex.flex-row.justify-content-between.align-items-center.mb-2
       p.p-0.m-0
         i.fa-solid.fa-user
-        strong = " #{tweet.user.display_name}"
+        strong= " #{tweet.user.display_name}"
       .d-flex.align-items-center.gap-2
         small
           i.fa-solid.fa-clock
           = "#{tweet.date_format}"
-        .dropdown style= "justify-self: right; cursor: pointer"
-          i.fa-solid.fa-gear data-bs-toggle= "dropdown" style= "cursor: pointer"
+        .dropdown[style= "justify-self: right; cursor: pointer"]
+          i.fa-solid.fa-gear[data-bs-toggle= "dropdown" style= "cursor: pointer"]
           - if user_signed_in? && tweet.user_id == current_user.id
             .dropdown-menu.dropdown-menu-end
               = link_to '<i class= "fa-solid fa-pencil"></i> Edit'.html_safe,
@@ -22,8 +22,8 @@
                   turbo_confirm: "Delete this tweet?" },
                 class: "dropdown-item"
     div
-      p = simple_format(tweet.content)
-      div.mt-2.mb-2 [
+      p= simple_format(tweet.content)
+      div.mt-2.mb-2[
         id= "#{dom_id(tweet, :replies)}"
         style= "border-top:1px solid #eee; padding-top:5px;"
         data-controller= "load-more-replies"
@@ -33,7 +33,7 @@
         - tweet.replies.limit(5).each do |reply|
           = render "replies/reply", reply: reply.decorate
         - if tweet.replies.count > 5
-          .text-center.mt-2 id= "load_more_replies_#{tweet.id}"
+          .text-center.mt-2[id= "load_more_replies_#{tweet.id}"]
             = button_to "Load More Replies (#{tweet.replies.count - 5} more)",
               load_more_tweet_replies_path(tweet),
               method: :get,
@@ -41,6 +41,6 @@
               data: { turbo_stream: true,
                 action: "click->load-more-replies#loadMore",
                 load_more_replies_target: "loadMoreButton" }
-      .mt-2.mb-2 style= "border-top:1px solid #eee; padding-top:5px;"
+      .mt-2.mb-2[style= "border-top:1px solid #eee; padding-top:5px;"]
         = turbo_frame_tag dom_id(tweet, "reply_form") do
           = render "replies/form", tweet: tweet, form: ReplyForm.new(Reply.new)

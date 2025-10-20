@@ -1,6 +1,8 @@
 module OwnershipAuthorization
   extend ActiveSupport::Concern
 
+
+
   private
 
   def authorize_owner!(record)
