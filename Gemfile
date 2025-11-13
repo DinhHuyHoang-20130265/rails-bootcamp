@@ -19,7 +19,7 @@ gem "jbuilder"
 
 gem "reform"
 gem "reform-rails"
-gem "draper", "~> 4.0", ">= 4.0.4"
+gem "draper", "~> 4.0"
 gem "slim-rails", "~> 3.7"
 
 gem "pg", "~> 1.x" # Use the appropriate version
